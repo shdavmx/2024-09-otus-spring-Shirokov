@@ -1,0 +1,27 @@
+application:
+  title: hw14-spring-batch
+  version: 1.0
+
+spring:
+  batch:
+    job:
+      enabled: false
+  shell:
+    script:
+      enabled: true
+    interactive:
+      enabled: true
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: hw11
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://localhost:5432/test
+    username: admin
+    password: admin
+    driverClassName: org.postgresql.Driver
+
+app:
+  migrationChunkSize: 10
