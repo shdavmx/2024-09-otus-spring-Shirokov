@@ -7,7 +7,7 @@ import ru.otus.hw.models.Author;
 
 @Data
 public class AuthorDto {
-    private long id;
+    private Long id;
 
     @NotBlank(message = "Name can not be empty")
     @Size(min = 2, max = 20, message = "Invalid name size. Expected size from 2 to 20")

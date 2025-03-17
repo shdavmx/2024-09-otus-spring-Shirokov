@@ -8,7 +8,7 @@ import ru.otus.hw.models.Comment;
 @AllArgsConstructor
 @Data
 public class CommentDto {
-    private long id;
+    private Long id;
 
     @NotBlank(message = "Comment can no be empty")
     private String comment;

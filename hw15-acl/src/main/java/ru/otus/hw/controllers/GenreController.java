@@ -13,7 +13,6 @@ import ru.otus.hw.models.dto.GenreDto;
 import ru.otus.hw.services.GenreService;
 
 import java.util.List;
-import java.util.Objects;
 
 @RequiredArgsConstructor
 @Controller

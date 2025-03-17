@@ -21,7 +21,6 @@ import ru.otus.hw.services.CommentService;
 import ru.otus.hw.services.GenreService;
 
 import java.util.List;
-import java.util.Objects;
 
 @RequiredArgsConstructor
 @Controller
@@ -77,10 +76,10 @@ public class BookController {
             return "book-edit";
         }
 
-        if (book.getId() != 0) {
+        if (book.getId() == 0) {
             bookService.insert(book.getTitle(), book.getAuthorId(), book.getGenreIds());
         } else {
-            bookService.update(0L, book.getTitle(), book.getAuthorId(), book.getGenreIds());
+            bookService.update(book.getId(), book.getTitle(), book.getAuthorId(), book.getGenreIds());
         }
 
         return "redirect:/books";

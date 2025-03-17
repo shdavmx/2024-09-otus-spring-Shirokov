@@ -56,6 +56,13 @@
     </div>
 
     <div class="row">
+        <label for="user-role-selector">Roles:</label>
+        <select id="user-role-selector" name="authorities" th:field="*{authorityIds}" multiple="multiple">
+            <option th:each="authority : ${authorities}" th:value="${{authority.id}}" th:text="${authority.name}"></option>
+        </select>
+    </div>
+
+    <div class="row">
         <button type="submit">Save</button>
         <a href="admin.html" th:href="@{/admin}"><button type="button">Cancel</button></a>
     </div>

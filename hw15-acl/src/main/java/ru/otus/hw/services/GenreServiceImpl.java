@@ -2,6 +2,7 @@ package ru.otus.hw.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.exceptions.EntityNotFoundException;
 import ru.otus.hw.models.Genre;
 import ru.otus.hw.models.dto.GenreDto;
@@ -39,16 +40,19 @@ public class GenreServiceImpl implements GenreService {
                 .toList();
     }
 
+    @Transactional
     @Override
     public GenreDto insert(String name) {
-        return GenreDto.fromDomainObject(genreRepository.save(new Genre(0, name)));
+        return GenreDto.fromDomainObject(genreRepository.save(new Genre(null, name)));
     }
 
+    @Transactional
     @Override
     public GenreDto update(Long id, String name) {
         return GenreDto.fromDomainObject(genreRepository.save(new Genre(id, name)));
     }
 
+    @Transactional
     @Override
     public void deleteById(Long id) {
         if (!genreRepository.existsById(id)) {

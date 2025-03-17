@@ -3,6 +3,7 @@ package ru.otus.hw.services;
 import ru.otus.hw.models.dto.BookDto;
 
 import java.util.List;
+import java.util.Set;
 
 public interface BookService {
     BookDto findById(Long id);
@@ -16,4 +17,6 @@ public interface BookService {
     BookDto update(Long id, String title, Long authorId, List<Long> genresIds);
 
     void deleteById(Long id);
+
+    List<BookDto> findAllBooksById(Set<Long> ids);
 }

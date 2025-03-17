@@ -48,10 +48,10 @@ public class AuthorController {
             return "author-edit";
         }
 
-        if (author.getId() != 0) {
+        if (author.getId() == 0) {
             authorService.insert(author.getFullName());
         } else {
-            authorService.update(0L, author.getFullName());
+            authorService.update(author.getId(), author.getFullName());
         }
 
         return "redirect:/authors";

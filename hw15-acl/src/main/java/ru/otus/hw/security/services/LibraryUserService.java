@@ -9,4 +9,8 @@ public interface LibraryUserService extends UserDetailsService {
     List<LibraryUser> findAll();
 
     boolean saveUser(LibraryUser user);
+
+    LibraryUser findUserById(Long id);
+
+    void deleteUserById(Long id);
 }

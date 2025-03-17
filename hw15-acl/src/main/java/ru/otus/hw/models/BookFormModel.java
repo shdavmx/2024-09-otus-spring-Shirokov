@@ -8,7 +8,7 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 public class BookFormModel {
-    private long id;
+    private Long id;
 
     private String title;
 

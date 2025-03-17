@@ -2,6 +2,7 @@ package ru.otus.hw.models.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import ru.otus.hw.models.Book;
 import ru.otus.hw.models.Collection;
 
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class CollectionDto {
     private Long id;
@@ -18,6 +20,15 @@ public class CollectionDto {
     private String description;
 
     private List<BookDto> books;
+
+    public String booksString() {
+        if (books == null || books.isEmpty()) {
+            return "Collection is empty";
+        }
+
+        return books.stream().map(BookDto::toString)
+                .collect(Collectors.joining(";"));
+    }
 
     @Override
     public String toString() {
@@ -33,14 +44,14 @@ public class CollectionDto {
     }
 
     public Collection toDomainObject() {
-        List<Book> dbBook = null;
+        List<Book> dbBooks = null;
         if (books != null && !books.isEmpty()) {
-            dbBook = books.stream()
+            dbBooks = books.stream()
                     .map(BookDto::toDomainObject)
                     .toList();
         }
 
-        return new Collection(id, name, description, dbBook);
+        return new Collection(id, name, description, dbBooks);
     }
 
     public static CollectionDto fromDomainObject(Collection collection) {

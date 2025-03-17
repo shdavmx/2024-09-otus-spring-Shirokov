@@ -2,6 +2,7 @@ package ru.otus.hw.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.exceptions.EntityNotFoundException;
 import ru.otus.hw.models.Author;
 import ru.otus.hw.models.dto.AuthorDto;
@@ -35,16 +36,19 @@ public class AuthorServiceImpl implements AuthorService {
         throw new EntityNotFoundException("Author '%s' not found".formatted(id));
     }
 
+    @Transactional
     @Override
     public AuthorDto insert(String fullName) {
-        return AuthorDto.fromDomainObject(authorRepository.save(new Author(0L, fullName)));
+        return AuthorDto.fromDomainObject(authorRepository.save(new Author(null, fullName)));
     }
 
+    @Transactional
     @Override
     public AuthorDto update(Long id, String name) {
         return AuthorDto.fromDomainObject(authorRepository.save(new Author(id, name)));
     }
 
+    @Transactional
     @Override
     public void deleteById(Long id) {
         if (!authorRepository.existsById(id)) {

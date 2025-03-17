@@ -2,6 +2,7 @@ package ru.otus.hw.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.exceptions.EntityNotFoundException;
 import ru.otus.hw.models.Author;
 import ru.otus.hw.models.Book;
@@ -14,6 +15,7 @@ import ru.otus.hw.repositories.GenreRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @RequiredArgsConstructor
 @Service
@@ -49,16 +51,19 @@ public class BookServiceImpl implements BookService {
                 .toList();
     }
 
+    @Transactional
     @Override
     public BookDto insert(String title, Long authorId, List<Long> genresIds) {
         return save(null, title, authorId, genresIds);
     }
 
+    @Transactional
     @Override
     public BookDto update(Long id, String title, Long authorId, List<Long> genresIds) {
         return save(id, title, authorId, genresIds);
     }
 
+    @Transactional
     @Override
     public void deleteById(Long id) {
         if (!bookRepository.existsById(id)) {
@@ -67,6 +72,12 @@ public class BookServiceImpl implements BookService {
 
         bookRepository.deleteById(id);
         commentRepository.deleteAllByBookId(id);
+    }
+
+    @Override
+    public List<BookDto> findAllBooksById(Set<Long> ids) {
+        List<Book> books = bookRepository.findAllById(ids);
+        return books.stream().map(BookDto::fromDomainObject).toList();
     }
 
     private BookDto save(Long id, String title, Long authorId, List<Long> genresIds) {

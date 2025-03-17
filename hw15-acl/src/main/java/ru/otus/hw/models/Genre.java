@@ -17,8 +17,9 @@ import lombok.NoArgsConstructor;
 @Table(schema = "library", name = "genres")
 public class Genre {
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(name = "name", nullable = false, unique = true)
     private String name;

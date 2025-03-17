@@ -30,7 +30,7 @@ import java.util.List;
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(name = "title", nullable = false, unique = true)
     private String title;
@@ -43,7 +43,7 @@ public class Book {
 
     @Fetch(FetchMode.SUBSELECT)
     @ManyToMany(targetEntity = Genre.class, fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinTable(name = "books_genres", joinColumns = @JoinColumn(name = "book_id"),
+    @JoinTable(schema = "library", name = "books_genres", joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id"))
     @EqualsAndHashCode.Exclude
     @ToString.Exclude

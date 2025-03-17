@@ -6,7 +6,9 @@ import org.springframework.security.core.Authentication;
 public class AclMethodSecurityExpressionRoot extends SecurityExpressionRoot
         implements AclMethodSecurityExpressionOperations {
     private Object filterObject;
+
     private Object returnObject;
+
     private Object target;
 
     public AclMethodSecurityExpressionRoot(Authentication authentication) {

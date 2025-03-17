@@ -1,6 +1,5 @@
 package ru.otus.hw.models;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -38,8 +37,8 @@ public class Collection {
     private String description;
 
     @Fetch(FetchMode.SUBSELECT)
-    @ManyToMany(targetEntity = Book.class, fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinTable(name = "collections_books", joinColumns = @JoinColumn(name = "collection_id"),
+    @ManyToMany(targetEntity = Book.class, fetch = FetchType.LAZY)
+    @JoinTable(schema = "library", name = "collections_books", joinColumns = @JoinColumn(name = "collection_id"),
             inverseJoinColumns = @JoinColumn(name = "book_id"))
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
