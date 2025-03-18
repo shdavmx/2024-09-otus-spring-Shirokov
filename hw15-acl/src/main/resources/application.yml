@@ -1,0 +1,14 @@
+application:
+  title: hw15-acl
+  version: 1.0
+
+spring:
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://localhost:5432/hw15
+    username: admin
+    password: admin
+    driverClassName: org.postgresql.Driver
+
+  main:
+    allow-bean-definition-overriding: true

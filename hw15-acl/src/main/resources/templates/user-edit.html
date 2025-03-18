@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User editor</title>
+    <style type="text/css">
+        html, body {
+            width: 99%;
+            height: 99%;
+        }
+
+        label {
+            display: inline-block;
+            width: 100px;
+        }
+
+        input:read-only {
+            background: lightgray;
+        }
+
+        .row {
+            margin-top: 10px;
+        }
+
+        .errors {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+<form id="edit-form" action="user-edit.html" th:action="@{/admin/user/edit}" th:method="post" th:object="${user}">
+    <h3>User Info:</h3>
+
+    <div class="row">
+        <label for="id-input">Id:</label>
+        <input id="id-input" type="text" th:readonly="*{id} != '0'" name="id" th:value="*{id}" value="1"/>
+    </div>
+
+    <div class="row">
+        <label for="user-email-input">Email:</label>
+        <input id="user-email-input" name="email" type="text" th:value="*{email}" value="User"/>
+        <div class="errors" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Wrong email error</div>
+    </div>
+
+    <div class="row">
+        <label for="user-name-input">Name:</label>
+        <input id="user-name-input" name="username" type="text" th:value="*{username}" value="User"/>
+        <div class="errors" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Wrong username error</div>
+    </div>
+
+    <div class="row">
+        <label for="user-password-input">Password:</label>
+        <input id="user-password-input" name="password" type="password" th:value="*{password}" value="User"/>
+        <div class="errors" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Wrong password error</div>
+    </div>
+
+    <div class="row">
+        <label for="user-role-selector">Roles:</label>
+        <select id="user-role-selector" name="authorities" th:field="*{authorityIds}" multiple="multiple">
+            <option th:each="authority : ${authorities}" th:value="${{authority.id}}" th:text="${authority.name}"></option>
+        </select>
+    </div>
+
+    <div class="row">
+        <button type="submit">Save</button>
+        <a href="admin.html" th:href="@{/admin}"><button type="button">Cancel</button></a>
+    </div>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,61 @@
+package ru.otus.hw.services;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import ru.otus.hw.exceptions.EntityNotFoundException;
+import ru.otus.hw.models.Author;
+import ru.otus.hw.models.dto.AuthorDto;
+import ru.otus.hw.repositories.AuthorRepository;
+import ru.otus.hw.repositories.BookRepository;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+@RequiredArgsConstructor
+@Service
+public class AuthorServiceImpl implements AuthorService {
+    private final AuthorRepository authorRepository;
+
+    private final BookRepository bookRepository;
+
+    @Override
+    public List<AuthorDto> findAll() {
+        return authorRepository.findAll().stream()
+                .map(AuthorDto::fromDomainObject)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public AuthorDto findById(Long id) {
+        Optional<Author> author = authorRepository.findById(id);
+        if (author.isPresent()) {
+            return AuthorDto.fromDomainObject(author.get());
+        }
+        throw new EntityNotFoundException("Author '%s' not found".formatted(id));
+    }
+
+    @Transactional
+    @Override
+    public AuthorDto insert(String fullName) {
+        return AuthorDto.fromDomainObject(authorRepository.save(new Author(null, fullName)));
+    }
+
+    @Transactional
+    @Override
+    public AuthorDto update(Long id, String name) {
+        return AuthorDto.fromDomainObject(authorRepository.save(new Author(id, name)));
+    }
+
+    @Transactional
+    @Override
+    public void deleteById(Long id) {
+        if (!authorRepository.existsById(id)) {
+            throw new EntityNotFoundException("Author with id '%s' not found".formatted(id));
+        }
+
+        authorRepository.deleteById(id);
+        bookRepository.deleteAllByAuthorId(id);
+    }
+}

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Collection editor</title>
+  <style type="text/css">
+    html, body {
+        width: 99%;
+        height: 99%;
+    }
+
+    label {
+        display: inline-block;
+        width: 100px;
+    }
+
+    input:read-only {
+        background: lightgray;
+    }
+
+    .row {
+        margin-top: 10px;
+    }
+
+    .errors {
+        color: red;
+    }
+  </style>
+</head>
+<body>
+
+<form id="edit-form" action="collection-edit.html" th:action="@{/collections/edit}" th:method="post" th:object="${collection}">
+  <h3>Collection Info:</h3>
+
+  <div class="row">
+    <label for="id-input">Id:</label>
+    <input id="id-input" type="text" th:readonly="*{id} != '0'" name="id" th:value="*{id}" value="1"/>
+  </div>
+
+  <div class="row">
+    <label for="collection-name-input">Name:</label>
+    <input id="collection-name-input" name="name" type="text" th:value="*{name}" value="Collection"/>
+    <div class="errors" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Wrong name error</div>
+  </div>
+
+  <div class="row">
+    <label for="collection-description-input">Description:</label>
+    <input id="collection-description-input" name="description" type="text" th:value="*{description}" value="Collection"/>
+    <div class="errors" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Wrong description error</div>
+  </div>
+
+  <div class="row">
+    <label for="collection-books-selector">Books:</label>
+    <select id="collection-books-selector" name="books" th:field="*{bookIds}" multiple="multiple">
+      <option th:each="book : ${books}" th:value="${{book.id}}" th:text="${book.title}"></option>
+    </select>
+  </div>
+
+  <div class="row">
+    <button type="submit">Save</button>
+    <a href="collection.html" th:href="@{/collections}"><button type="button">Cancel</button></a>
+  </div>
+</form>
+
+</body>
+</html>

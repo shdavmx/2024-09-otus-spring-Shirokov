@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://localhost:5432/hw15-test
+    username: admin
+    password: admin
+    driverClassName: org.postgresql.Driver
+  sql:
+    init:
+      mode: always
+      schema-location: schema.sql
+      data-locations: test-data.sql
