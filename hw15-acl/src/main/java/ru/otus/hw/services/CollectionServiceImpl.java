@@ -40,11 +40,12 @@ public class CollectionServiceImpl implements CollectionService {
     }
 
     @Transactional
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @Override
-    public CollectionDto insert(Long id, String name, String description, List<Long> bookIds) {
+    public CollectionDto insert(String name, String description, List<Long> bookIds) {
         List<BookDto> books = bookService.findAllBooksById(new HashSet<>(bookIds));
         List<Book> dbBooks = books.stream().map(BookDto::toDomainObject).toList();
-        Collection collection = new Collection(id, name, description, dbBooks);
+        Collection collection = new Collection(null, name, description, dbBooks);
         Collection savedCollection = collectionRepository.save(collection);
         CollectionDto collectionDto = CollectionDto.fromDomainObject(savedCollection);
 
@@ -62,7 +63,6 @@ public class CollectionServiceImpl implements CollectionService {
     }
 
     @Transactional
-    @PreAuthorize("hasPermission(#collectionDto, 'WRITE')")
     @Override
     public CollectionDto addBookToCollection(Long collectionId, BookDto bookDto) {
         Optional<Collection> collection = collectionRepository.findById(collectionId);
@@ -91,7 +91,6 @@ public class CollectionServiceImpl implements CollectionService {
     }
 
     @Transactional
-    @PreAuthorize("hasPermission(#collectionDto, 'DELETE')")
     @Override
     public CollectionDto removeBookFromCollection(Long collectionId, BookDto bookDto) {
         CollectionDto collection = findById(collectionId);
@@ -110,13 +109,13 @@ public class CollectionServiceImpl implements CollectionService {
     }
 
     @Transactional
-    @PreAuthorize("hasPermission(#collectionDto, 'DELETE')")
+    @PreAuthorize("hasPermission(#collectionId, T(ru.otus.hw.models.dto.CollectionDto), 'DELETE')")
     @Override
     public void removeCollectionById(Long collectionId) {
         collectionRepository.deleteById(collectionId);
     }
 
-    @PreAuthorize("canRead(#id, T(ru.otus.hw.models.Collection))")
+    @PreAuthorize("canRead(#collectionId, T(ru.otus.hw.models.dto.CollectionDto))")
     @Override
     public CollectionDto findById(Long collectionId) {
         Optional<Collection> collection = collectionRepository.findById(collectionId);

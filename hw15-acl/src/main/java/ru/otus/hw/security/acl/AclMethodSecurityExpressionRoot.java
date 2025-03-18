@@ -35,6 +35,15 @@ public class AclMethodSecurityExpressionRoot extends SecurityExpressionRoot
     }
 
     @Override
+    public boolean canCreate(Object targetId, Class<?> targetClass) {
+        if (isAdministrator(targetId, targetClass)) {
+            return true;
+        }
+
+        return isGranted(targetId, targetClass, create);
+    }
+
+    @Override
     public void setFilterObject(Object filterObject) {
         this.filterObject = filterObject;
     }

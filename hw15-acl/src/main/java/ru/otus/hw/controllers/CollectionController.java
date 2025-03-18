@@ -58,7 +58,7 @@ public class CollectionController {
         }
 
         if (collection.getId() == null || collection.getId() == 0) {
-            collectionService.insert(collection.getId(), collection.getName(), collection.getDescription(),
+            collectionService.insert(collection.getName(), collection.getDescription(),
                     collection.getBookIds());
         } else {
             List<BookDto> books = bookService.findAllBooksById(new HashSet<>(collection.getBookIds()));

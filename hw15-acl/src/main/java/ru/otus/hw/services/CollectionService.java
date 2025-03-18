@@ -8,7 +8,7 @@ import java.util.List;
 public interface CollectionService {
     List<CollectionDto> findAll();
 
-    CollectionDto insert(Long id, String name, String description, List<Long> bookIds);
+    CollectionDto insert(String name, String description, List<Long> bookIds);
 
     CollectionDto update(CollectionDto collectionDto);
 
